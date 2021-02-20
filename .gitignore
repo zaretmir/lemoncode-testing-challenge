@@ -8,6 +8,7 @@ junit.xml
 *.orig
 package-lock.json
 yarn.lock
-.awcache
 public
 .idea/
+cypress/videos
+cypress/screenshots

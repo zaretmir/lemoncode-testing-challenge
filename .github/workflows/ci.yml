@@ -13,5 +13,21 @@ jobs:
         run: npm install
       - name: Build application
         run: npm run build
-      - name: Run tests
+      - name: Run unit tests
         run: npm run test
+      - name: Run e2e tests
+        run: npm run test:e2e:ci
+      - name: Upload screenshots when e2e tests fail
+        if: ${{failure()}}
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: ./cypress/screenshots
+      - name: Upload videos when e2e tests fail
+        if: ${{failure()}}
+        uses: actions/upload-artifact@v2
+        with:
+          name: videos
+          path: ./cypress/videos
+
+
