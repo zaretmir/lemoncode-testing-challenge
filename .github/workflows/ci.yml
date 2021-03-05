@@ -1,0 +1,33 @@
+name: CI Workflow
+on:
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  ci:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Install application
+        run: npm install
+      - name: Build application
+        run: npm run build
+      - name: Run unit tests
+        run: npm run test
+      - name: Run e2e tests
+        run: npm run test:e2e:ci
+      - name: Upload screenshots when e2e tests fail
+        if: ${{failure()}}
+        uses: actions/upload-artifact@v2
+        with:
+          name: screenshots
+          path: ./cypress/screenshots
+      - name: Upload videos when e2e tests fail
+        if: ${{failure()}}
+        uses: actions/upload-artifact@v2
+        with:
+          name: videos
+          path: ./cypress/videos
+
+
